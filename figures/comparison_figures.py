@@ -102,23 +102,7 @@ for l in colorstr.replace(' ', '').split('\n'):
         shade = 0
 colors = np.array(colors)/255.0
 
-# -
-
-
-
-import pickle as pkl
-
-loaded_data = pkl.load(
-    open('/mnt/ceph/users/mcranmer/general_data/stability_dataset/all_jun2020_randomv8.pkl', 'rb')
-)
-
-# %matplotlib inline
-plt.hist(loaded_data['y'].ravel())
-
-
-
 # Let's load in the data with summary features:
-
 import sys
 
 sys.path.append(

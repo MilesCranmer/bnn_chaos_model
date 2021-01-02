@@ -38,7 +38,7 @@ from tqdm.notebook import tqdm
 
 import sys
 version = int(sys.argv[1])
-base = f'../steps=300000_*_v{version}_*_output.pkl'
+base = f'../pretrained/steps=300000_*_v{version}_*_output.pkl'
 import glob
 swag_models = [spock_reg_model.load_swag(filename) for filename in glob.glob(base)]
 
