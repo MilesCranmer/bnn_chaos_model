@@ -1,3 +1,4 @@
+"""This file takes a model at its minima, and models the Gaussian at the posterior mode"""
 import sys
 import seaborn as sns
 sns.set_style('darkgrid')
@@ -7,11 +8,9 @@ spock_reg_model.HACK_MODEL = True
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import LearningRateLogger, ModelCheckpoint
-
 import torch
 import numpy as np
 from scipy.stats import truncnorm
-
 import time
 from tqdm.notebook import tqdm
 

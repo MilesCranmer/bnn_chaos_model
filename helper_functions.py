@@ -1,70 +1,49 @@
 import numpy as np
 import pandas as pd
 import sys
-
 import torch
 import torch.nn
 import torch.autograd as autograd
 import torch.utils.data
 from torch.autograd import Variable
 import torch.nn.functional as F
-
 import matplotlib as mpl
 mpl.use('agg')
 import matplotlib.pyplot as plt
 from tqdm import tqdm_notebook, tqdm
-
 import astropy.coordinates as coord
 import astropy.units as u
 from astropy.coordinates import SkyCoord
-
 import torch
 import torch.nn as nn
-
 from icecream import ic
-
 import warnings
 warnings.filterwarnings('ignore')
-
 dtype = torch.FloatTensor
 long_dtype = torch.LongTensor
 torch.set_default_tensor_type('torch.FloatTensor')
-
 import torch.nn.functional as F
-
 from icecream import ic
-
 import sys
 sys.path.append('/mnt/ceph/users/mcranmer/MLstability/generate_training_data/')
 from filenames import cdataset as data_directories
-
 from tqdm import tqdm
 
 NUMCHAN=8
-#perturb_y_data = True
 perturb_y_data = False
-if perturb_y_data:
-    TOP = 9+3
-else:
-    TOP = 9
+TOP = 9
 
 def gen_dens(y, bins=int(5.0/0.5*10)):
-    #(dens, bins, _) = plt.hist(y[:, :2].ravel(), bins=50, density=True, range=[4, TOP])
     dens, bins = np.histogram(y[:, 0].ravel(), bins=bins, density=True, range=[4, TOP])
     dens[dens == 0.] = np.min(dens[dens > 0.])
     plt.clf()
     inv_dens = 1.0/dens
     inv_dens /= np.average(inv_dens)
-    #bin_width = bins[1] - bins[0]
     bins = bins
     return inv_dens, bins
 
-
 def load_data_normalized(debug=False, downsample=10,
         dataset='resonant'):
-
-    #TODO - delete
-    import pandas as pd
 
     base = '/mnt/ceph/users/mcranmer/MLstability/training_data/'
     labels = []
@@ -150,16 +129,7 @@ def load_data_normalized(debug=False, downsample=10,
     old_axis_labels.extend(['nan_mmr_near', 'nan_mmr_far', 'nan_megno'])
 
     old_X[:, :, [3, 6, 7]] = np.nan_to_num(old_X[..., [3, 6, 7]], posinf=0.0, neginf=0.0)
-    # good_rows = ~np.any(~np.isfinite(old_X), axis=(1, 2))
-    # good_rows = good_rows * (~np.any(y <= 4, axis=1))
-    # old_X = old_X[good_rows]
-    # y = y[good_rows]
-    # print('Good, bad:', good_rows.sum(), (~good_rows).sum())
-    # bad_cols = np.sum(~np.isfinite(old_X), axis=(0, 1))
-    # print('Good, total cols:', [(old_axis_labels[i], bad_cols[i]) for i in range(len(old_axis_labels))], old_X.shape)
     ic('Done')
-
-
 
     axis_labels = []
     X = []
@@ -195,7 +165,6 @@ def reweighted_loss_func(y, yp):
 
     return np.average(np.square(y.ravel() - yp.ravel()), weights=corresponding_weight.ravel())
 
-
 def get_accuracy_for_model(
         clf, transform=False, cv=3, requires_flatten=False,
         train_on_shadow_time=False,
@@ -204,10 +173,10 @@ def get_accuracy_for_model(
         add_time_axis=False, loss_func=None,
         reset_data=False,
         **kwargs):
+    """[deprecated] Function for getting accuracy of an sklearn-like model."""
 
     from sklearn.model_selection import KFold
     if loss_func is None:
-        #loss_func = reweighted_loss_func
         from sklearn.metrics import mean_squared_error as loss_func
 
     global globalX
@@ -331,7 +300,6 @@ class TorchWrapper(object):
         self.reset()
         self.clf.train()
 
-        #X = self.run_reshape(X)
         ic("Preprocessing")
         X = self.preprocess(X)
         X = Variable(torch.from_numpy(X).type(torch.FloatTensor))
@@ -509,24 +477,16 @@ def augment_time_series(X):
     # In Dan's code, pomega = little_omega + Omega. However apply_augmentation_vec expects little_omega
     pomega = torch.fmod(pomega, 2*np.pi)
     pomega = pomega.reshape(-1)
-
     rand_u_vec = np.random.multivariate_normal([0, 0, 0], np.eye(3))
     rand_u_vec /= np.linalg.norm(rand_u_vec)
     u_theta = np.arccos(rand_u_vec[2])
     u_phi = np.arctan2(rand_u_vec[1], rand_u_vec[0])
     pomega_difference = np.random.uniform(0, 2*np.pi)
-
     inc, omega, pomega = apply_augmentation_torch(u_theta, u_phi, pomega_difference, pomega, omega, inc)
-
     X[:, 2:18:6] = torch.fmod(inc.reshape(-1, 3), 2*np.pi)
     X[:, 3:18:6] = torch.fmod(omega.reshape(-1, 3), 2*np.pi)
     X[:, 4:18:6] = torch.fmod(pomega.reshape(-1, 3), 2*np.pi)
-
     X = X.reshape(N, 1729, 21)
-
-    #TODO: Try subtracting mean along each time-stream.
-    #TODO: Try doing a fourier transform on M ([5:18:6])
-
     return X
 
 
