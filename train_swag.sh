@@ -1,14 +1,4 @@
-#!/bin/bash
-#SBATCH -N1
-#SBATCH --job-name=var_reg
-#SBATCH -n 1
-#SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=4
-#SBATCH --mem=100000
-#SBATCH -p gpu
-#SBATCH --constraint="v100|p100"
-
-run_string="/mnt/home/mcranmer/miniconda3/envs/main2/bin/python swag_part1.py $@ || /mnt/home/mcranmer/miniconda3/envs/main2/bin/python swag_part2.py $@"
-#run_string="/mnt/home/mcranmer/miniconda3/envs/main2/bin/python swag_part2.py $@"
-
-srun bash -c "$run_string"
+for seed in `seq 0 29`; do
+    python swag_part1.py --total_steps 300000 --swa_steps 50000 --version 51 --no_mmr --no_nan --no_eplusminus --seed $seed
+    python swag_part2.py --total_steps 300000 --swa_steps 50000 --version 51 --no_mmr --no_nan --no_eplusminus --seed $seed
+done
