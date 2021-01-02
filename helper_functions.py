@@ -11,9 +11,6 @@ import matplotlib as mpl
 mpl.use('agg')
 import matplotlib.pyplot as plt
 from tqdm import tqdm_notebook, tqdm
-import astropy.coordinates as coord
-import astropy.units as u
-from astropy.coordinates import SkyCoord
 import torch
 import torch.nn as nn
 from icecream import ic
