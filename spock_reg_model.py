@@ -1,5 +1,3 @@
-# ['time', 'e+_near', 'e-_near', 'max_strength_mmr_near', 'e+_far', 'e-_far', 'max_strength_mmr_far', 'megno', 'a1', 'e1', 'i1', 'cos_Ome ga1', 'sin_Omega1', 'cos_pomega1', 'sin_pomega1', 'cos_theta1', 'sin_theta1', 'a2', 'e2', 'i2', 'cos_Omega2', 'sin_Omega2', 'cos_pomega 2', 'sin_pomega2', 'cos_theta2', 'sin_theta2', 'a3', 'e3', 'i3', 'cos_Omega3', 'sin_Omega3', 'cos_pomega3', 'sin_pomega3', 'cos_theta3' , 'sin_theta3', 'm1', 'm2', 'm3', 'nan_mmr_near', 'nan_mmr_far', 'nan_megno']
-
 import pickle as pkl
 from copy import deepcopy as copy
 import helper_functions as h
@@ -7,8 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer
 import matplotlib as mpl
-import numpy as np
 mpl.use('agg')
+import numpy as np
 from matplotlib import pyplot as plt
 import torch
 from torch import nn
@@ -20,20 +18,16 @@ from torch.nn import Parameter
 import math
 import pytorch_lightning as pl
 from pytorch_lightning import Trainer
-
-import types
 import math
 from torch._six import inf
 from functools import wraps
 import warnings
-import weakref
-from collections import Counter
-from bisect import bisect_right
 from torch.optim.optimizer import Optimizer
 from collections import OrderedDict
 
 
 class CustomOneCycleLR(torch.optim.lr_scheduler._LRScheduler):
+    """Custom version of one-cycle learning rate to stop early"""
     def __init__(self,
                  optimizer,
                  max_lr,
@@ -142,11 +136,9 @@ class CustomOneCycleLR(torch.optim.lr_scheduler._LRScheduler):
 
         lrs = []
         step_num = self.last_epoch
-
         if step_num > self.total_steps:
             raise ValueError("Tried to step {} times. The specified number of total steps is {}"
                              .format(step_num + 1, self.total_steps))
-
         for group in self.optimizer.param_groups:
             if step_num <= self.step_size_up:
                 computed_lr = self.anneal_func(group['initial_lr'], group['max_lr'], step_num / self.step_size_up)
@@ -159,7 +151,6 @@ class CustomOneCycleLR(torch.optim.lr_scheduler._LRScheduler):
                 if self.cycle_momentum:
                     computed_momentum = self.anneal_func(group['base_momentum'], group['max_momentum'],
                                                          down_step_num / self.step_size_down)
-
             lrs.append(computed_lr)
             if self.cycle_momentum:
                 if self.use_beta1:
@@ -167,7 +158,6 @@ class CustomOneCycleLR(torch.optim.lr_scheduler._LRScheduler):
                     group['betas'] = (computed_momentum, beta2)
                 else:
                     group['momentum'] = computed_momentum
-
         return lrs
 
 def get_data(
@@ -350,6 +340,7 @@ def safe_log_erf(x):
 EPSILON = 1e-5
 
 class VarModel(pl.LightningModule):
+    """Bayesian Neural Network model for predicting instability time"""
     def __init__(self, hparams):
         super().__init__()
         if 'seed' not in hparams: hparams['seed'] = 0
