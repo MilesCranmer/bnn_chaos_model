@@ -105,10 +105,8 @@ colors = np.array(colors)/255.0
 # Let's load in the data with summary features:
 import sys
 
-sys.path.append(
-    '/mnt/ceph/users/mcranmer/MLstability/generate_training_data/')
 
-base = '/mnt/ceph/users/mcranmer/MLstability/training_data/'
+base = './data/summary_features/'
 
 from filenames import cdataset, cdataset_rand
 

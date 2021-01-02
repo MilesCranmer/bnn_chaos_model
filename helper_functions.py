@@ -22,7 +22,6 @@ torch.set_default_tensor_type('torch.FloatTensor')
 import torch.nn.functional as F
 from icecream import ic
 import sys
-sys.path.append('/mnt/ceph/users/mcranmer/MLstability/generate_training_data/')
 from filenames import cdataset as data_directories
 from tqdm import tqdm
 
@@ -42,7 +41,7 @@ def gen_dens(y, bins=int(5.0/0.5*10)):
 def load_data_normalized(debug=False, downsample=10,
         dataset='resonant'):
 
-    base = '/mnt/ceph/users/mcranmer/MLstability/training_data/'
+    base = './data/summary_features/'
     labels = []
     mass_ratios = []
     time_series = []
