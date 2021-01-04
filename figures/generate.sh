@@ -1,8 +1,8 @@
 #!/bin/zsh
 
-gen_5p_figures=true
+gen_5p_figures=false
 gen_scatterplot_figures=false
-gen_comparison_figures=false
+gen_comparison_figures=true
 gen_likelihood_example=false
 gen_orbital_series_for_schematic=false
 gen_feature_importances=false
@@ -25,8 +25,7 @@ if [ "$gen_comparison_figures" = true ] ; then
 fi
 
 if [ "$gen_likelihood_example" = true ] ; then
-    cd /mnt/home/mcranmer/local_orbital_physics/miles/figures && \
-        python likelihood.py
+    python likelihood.py
 fi
 
 if [ "$gen_orbital_series_for_schematic" = true ] ; then

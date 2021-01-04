@@ -27,6 +27,8 @@ import seaborn as sns
 import matplotlib as mpl
 mpl.use('agg')
 from matplotlib import pyplot as plt
+import sys
+sys.path.append('..')
 
 import spock_reg_model
 from pytorch_lightning import Trainer
@@ -106,7 +108,7 @@ colors = np.array(colors)/255.0
 import sys
 
 
-base = './data/summary_features/'
+base = '../data/summary_features/'
 
 from filenames import cdataset, cdataset_rand
 
@@ -142,12 +144,13 @@ len_random = 'none'
 columns = None
 for dataset in datasets:
     try:
+        print("Loading from", base + dataset + feats[0] + '/trainingdata.csv')
         cdata = pd.concat(
             [pd.read_csv(base + dataset + feat + '/trainingdata.csv')
               for feat in feats], axis=1)
 
         cdata = pd.concat([cdata, pd.read_csv(base+dataset+'/featuresNorbits10000.0Nout1000trio/massratios.csv')], axis=1)
-        cdata = pd.concat([cdata, pd.read_csv(base+dataset+'/labels.csv')], axis=1)
+        cdata = pd.concat([cdata, pd.read_csv(base+dataset+'/featuresNorbits10000.0Nout1000trio/labels.csv')], axis=1)
         if dataset == 'random':
             len_random = len(cdata)
             columns = cdata.columns
