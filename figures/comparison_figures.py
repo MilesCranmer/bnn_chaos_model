@@ -433,7 +433,7 @@ for cmodelstr in ['Obertas+17', 'Petit+20', 'XGBoost', 'XGBoost_classifier', 'Id
     px = truths
     if cmodelstr == 'Ideal':
         shape = px.shape
-        sigmas_to_sample = np.loadtxt('/mnt/home/mcranmer/local_orbital_physics/miles/sigmas.txt')
+        sigmas_to_sample = np.loadtxt('../data/sigmas.txt')
         sampled_sigmas = sigmas_to_sample[
                 np.random.randint(0, len(sigmas_to_sample), size=shape)
             ].reshape(*shape)
@@ -472,7 +472,7 @@ for cmodelstr in ['Obertas+17', 'Petit+20', 'XGBoost', 'XGBoost_classifier', 'Id
                 einops.rearrange(y_test,  '(sample run) -> sample run', run=2)
             )
         shape = nominal.shape
-        sigmas_to_sample = np.loadtxt('/mnt/home/mcranmer/local_orbital_physics/miles/sigmas.txt')
+        sigmas_to_sample = np.loadtxt('../data/sigmas.txt')
         sampled_sigmas = sigmas_to_sample[
                 np.random.randint(0, len(sigmas_to_sample), size=shape)
             ].reshape(*shape)
