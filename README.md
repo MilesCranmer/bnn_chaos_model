@@ -27,3 +27,8 @@ Packages:
 - **dask==2.11.0**
 - einops==0.3.0
 - fire==0.3.1
+
+# Training
+
+Run the script `train.sh`, which will train
+the model 30 times from different seeds.
