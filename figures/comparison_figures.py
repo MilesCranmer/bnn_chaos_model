@@ -549,9 +549,9 @@ for cmodelstr in ['Obertas+17', 'Petit+20', 'XGBoost', 'XGBoost_classifier', 'Id
     plt.suptitle(models[cmodelstr]['title'], y=1.0)
     plt.tight_layout()
     if random:
-        plt.savefig(f'figures/comparison_{cmodelstr}_random.png', dpi=300)
+        plt.savefig(f'comparison_{cmodelstr}_random.png', dpi=300)
     else:
-        plt.savefig(f'figures/comparison_{cmodelstr}.png', dpi=300)
+        plt.savefig(f'comparison_{cmodelstr}.png', dpi=300)
 
 # -
 

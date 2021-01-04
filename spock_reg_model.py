@@ -179,7 +179,6 @@ def get_data(
     if not train_all and ssX is None:
         plot_resonant = True
         plot_random = False
-    print(f'plot_random={plot_random}')
 
     if train_all:
         filename = 'data/combined.pkl'
