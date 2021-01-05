@@ -21,9 +21,10 @@ import seaborn as sns
 sns.set_style('darkgrid')
 from matplotlib import pyplot as plt
 import sys
-sys.path.append('../')
-
+sys.path.append('..')
 import spock_reg_model
+import os
+os.chdir('..')
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.callbacks import LearningRateLogger, ModelCheckpoint
@@ -38,7 +39,7 @@ from tqdm.notebook import tqdm
 
 import sys
 version = int(sys.argv[1])
-base = f'../pretrained/steps=300000_*_v{version}_*_output.pkl'
+base = f'pretrained/steps=300000_*_v{version}_*_output.pkl'
 import glob
 swag_models = [spock_reg_model.load_swag(filename) for filename in glob.glob(base)]
 
@@ -281,7 +282,7 @@ ax.xaxis.set_zorder(100)
 ax.set_ylim(-1, len(actual_idx)+1)
 plt.xlabel(r'Feature importance')
 plt.tight_layout()
-plt.savefig('importance.pdf')
+plt.savefig('figures/importance.pdf')
 plt.show()
 # -
 

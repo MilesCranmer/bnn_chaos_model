@@ -2,7 +2,7 @@
 
 gen_5p_figures=false
 gen_scatterplot_figures=false
-gen_comparison_figures=true
+gen_comparison_figures=false
 gen_likelihood_example=false
 gen_orbital_series_for_schematic=false
 gen_feature_importances=false

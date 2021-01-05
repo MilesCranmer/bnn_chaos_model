@@ -1,3 +1,5 @@
 # to be downloaded over globus:
 data
+*.png
+*.pdf
 __pycache__
