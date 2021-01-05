@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-gen_5p_figures=false
+gen_5p_figures=true
 gen_scatterplot_figures=false
 gen_comparison_figures=false
 gen_likelihood_example=false
@@ -13,10 +13,7 @@ if [ "$gen_scatterplot_figures" = true ] ; then
 fi
 
 if [ "$gen_5p_figures" = true ] ; then
-    cd /mnt/home/mcranmer/spock_jul30/paper_plots && \
-    /mnt/home/mcranmer/miniconda3/envs/main2/bin/python multiswag_5_planet.py 50 && \
-    cd /mnt/home/mcranmer/local_orbital_physics/miles/figures && \
-    cp ../*v50*.pdf ./ && cp ../*v50*.png ./
+    python multiswag_5_planet.py 50
 fi
 
 if [ "$gen_comparison_figures" = true ] ; then
