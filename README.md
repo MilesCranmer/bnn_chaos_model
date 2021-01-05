@@ -1,6 +1,16 @@
 # bnn_chaos_model
 Model and training code for Bayesian neural network for compact planetary instability
 
+# Running
+
+To train the model, download the data into a `/data` folder at the base of this repository.
+Run the script `train.sh`, which will train
+the model 30 times from different seeds.
+
+To generate the figures, edit the `figures/generate.sh` script
+to have `true` instead of `false` for any figure you'd like to generate.
+Then, execute that script in the folder.
+
 # Requirements
 
 Version requirements, when necessary, are given in bold.
@@ -27,8 +37,3 @@ Packages:
 - **dask==2.11.0**
 - einops==0.3.0
 - fire==0.3.1
-
-# Training
-
-Run the script `train.sh`, which will train
-the model 30 times from different seeds.
