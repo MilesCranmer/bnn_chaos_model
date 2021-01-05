@@ -15,10 +15,6 @@ from torch.functional import F
 
 from icecream import ic
 
-basedir_bayes = '/mnt/home/mcranmer/local_orbital_physics/miles'
-import sys
-sys.path.append(basedir_bayes)
-
 import glob
 import seaborn as sns
 from matplotlib import pyplot as plt
@@ -49,9 +45,9 @@ class FeatureRegressor(object):
         import pickle as pkl
         self.swag_ensemble = [
             spock_reg_model.load_swag(fname).cpu()
-            for i, fname in enumerate(glob.glob(basedir_bayes + '/' + filebase)) #0.78, 0.970
+            for i, fname in enumerate(glob.glob(pwd + '/../' + filebase)) #0.78, 0.970
         ]
-        ssX_file = basedir_bayes + '/' + filebase[:-4] + '_ssX.pkl'
+        ssX_file = pwd + '/../' + filebase[:-4] + '_ssX.pkl'
         ic(ssX_file)
         self.ssX = pkl.load(open(list(glob.glob(ssX_file))[0], 'rb'))
         #Load data scaling parameters

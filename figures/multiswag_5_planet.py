@@ -5,6 +5,7 @@
 import sys
 sys.path.append('../')
 
+
 import os
 
 os.environ['XLA_PYTHON_CLIENT_PREALLOCATE'] = 'false'
@@ -33,7 +34,7 @@ try:
 except:
     pass
 
-spockoutfile = '../spockprobstesttrio.npz'
+spockoutfile = '../data/spockprobstesttrio.npz'
 version = int(sys.argv[1])
 
 from multiswag_5_planet_plot import make_plot
@@ -49,9 +50,9 @@ except FileNotFoundError:
 stride = 1
 nsim_list = np.arange(0, 17500)
 # Paper-ready is 5000:
-N = 5000
+N = 50
 # Paper-ready is 10000
-samples = 10000
+samples = 100
 used_axes = np.linspace(0, 17500-1, N).astype(np.int32)#np.arange(17500//3, 17500, 1750//3)
 
 nsim_list = nsim_list[used_axes]
@@ -59,7 +60,7 @@ nsim_list = nsim_list[used_axes]
 
 model = FeatureRegressor(
     cuda=True,
-    filebase='../*' + f'v{version:d}' + '*output.pkl'
+    filebase='../pretrained/*' + f'v{version:d}' + '*output.pkl'
     # filebase='*' + 'v30' + '*output.pkl'
     #'long_zero_megno_with_angles_power_v14_*_output.pkl'
 )
@@ -185,7 +186,7 @@ def data_setup_kernel(mass_array, cur_tseries):
 
 from collections import OrderedDict
 import sys
-sys.path.append('../spock')
+sys.path.append('spock')
 from tseries_feature_functions import get_extended_tseries
 
 
@@ -376,8 +377,6 @@ from time import time as ttime
 
 
 # +
-
-sys.path.append('/mnt/home/mcranmer/local_orbital_physics/miles')
 
 from petit20_survival_time import Tsurv
 # -
