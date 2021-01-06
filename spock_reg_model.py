@@ -1,6 +1,5 @@
 import pickle as pkl
 from copy import deepcopy as copy
-import helper_functions as h
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.preprocessing import StandardScaler, QuantileTransformer, PowerTransformer
@@ -11,7 +10,6 @@ from matplotlib import pyplot as plt
 import torch
 from torch import nn
 from torch.autograd import Variable
-from icecream import ic
 import sys
 import torch.nn.functional as F
 from torch.nn import Parameter
@@ -383,6 +381,8 @@ class VarModel(pl.LightningModule):
         hparams['noisy_val'] = True if 'noisy_val' not in hparams else hparams['noisy_val']
 
         self.hparams = hparams
+        self.save_hyperparameters()
+        assert 'momentum' in self.hparams
         self.steps = hparams['steps']
         self.batch_size = hparams['batch_size']
         self.lr = hparams['lr'] #init_lr
@@ -704,11 +704,6 @@ class SWAGModel(VarModel):
         self.c = 2 if 'c' not in self.swa_params else self.swa_params['c']
         self.swa_params['c'] = self.c
         self.swa_params['K'] = self.K
-
-        self.hparams = {
-                **self.hparams,
-                **self.swa_params
-            }
 
         return self
 

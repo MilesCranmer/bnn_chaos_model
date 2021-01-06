@@ -7,7 +7,7 @@ spock_reg_model.HACK_MODEL = True
 from pytorch_lightning import Trainer
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
-from pytorch_lightning.callbacks import LearningRateLogger, ModelCheckpoint
+from pytorch_lightning.callbacks import ModelCheckpoint
 import torch
 import numpy as np
 from scipy.stats import truncnorm
@@ -64,7 +64,6 @@ args = {
     'train_all': args.train_all,
 }
 
-lr_logger = LearningRateLogger()
 name = 'full_swag_pre_' + checkpoint_filename
 logger = TensorBoardLogger("tb_logs", name=name)
 checkpointer = ModelCheckpoint(filepath=checkpoint_filename + '/{version}')
@@ -76,7 +75,7 @@ labels = ['time', 'e+_near', 'e-_near', 'max_strength_mmr_near', 'e+_far', 'e-_f
 max_l2_norm = args['gradient_clip']*sum(p.numel() for p in model.parameters() if p.requires_grad)
 trainer = Trainer(
     gpus=1, num_nodes=1, max_epochs=args['epochs'],
-    logger=logger, callbacks=[lr_logger],
+    logger=logger,
     checkpoint_callback=checkpointer, benchmark=True,
     terminate_on_nan=True, gradient_clip_val=max_l2_norm
 )
