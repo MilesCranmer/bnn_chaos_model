@@ -205,7 +205,7 @@ def get_features_for_sim(sim_i, indices=None):
 
     kwargs = OrderedDict()
     kwargs['Norbits'] = int(1e4)
-    kwargs['Nout'] = 1000
+    kwargs['Nout'] = 100
     kwargs['trios'] = trios
     args = list(kwargs.values())
     # These are the .npy.
@@ -221,7 +221,7 @@ def get_features_for_sim(sim_i, indices=None):
     for i, trio in enumerate(trios):
         sim = simt.copy()
         # These are the .npy.
-        cur_tseries = tseries[None, i, ::10]
+        cur_tseries = tseries[None, i, :]
         mass_array = np.array([sim.particles[j].m/sim.particles[0].m for j in trio])
         X = data_setup_kernel(mass_array, cur_tseries)
         Xs.append(X)
