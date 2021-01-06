@@ -380,9 +380,8 @@ class VarModel(pl.LightningModule):
         hparams['weight_decay'] = 1e-4 if 'weight_decay' not in hparams else hparams['weight_decay']
         hparams['noisy_val'] = True if 'noisy_val' not in hparams else hparams['noisy_val']
 
-        self.hparams = hparams
+        # self.hparams = hparams
         self.save_hyperparameters()
-        assert 'momentum' in self.hparams
         self.steps = hparams['steps']
         self.batch_size = hparams['batch_size']
         self.lr = hparams['lr'] #init_lr
@@ -929,12 +928,40 @@ def load_swag(path):
     swag_model.w_avg = save_items['w_avg']
     swag_model.w2_avg = save_items['w2_avg']
     swag_model.pre_D = save_items['pre_D']
-    ssX_file = path[:-4] + '_ssX.pkl'
-    try:
-        ssX = pkl.load(open(ssX_file, 'rb'))
+    if 'v50' in path:
+        # Assume fixed scale:
+        ssX = StandardScaler()
+        ssX.scale_ = np.array([2.88976974e+03, 6.10019661e-02, 4.03849732e-02, 4.81638693e+01,
+                   6.72583662e-02, 4.17939679e-02, 8.15995339e+00, 2.26871589e+01,
+                   4.73612029e-03, 7.09223721e-02, 3.06455099e-02, 7.10726478e-01,
+                   7.03392022e-01, 7.07873597e-01, 7.06030923e-01, 7.04728204e-01,
+                   7.09420909e-01, 1.90740659e-01, 4.75502285e-02, 2.77188320e-02,
+                   7.08891412e-01, 7.05214134e-01, 7.09786887e-01, 7.04371833e-01,
+                   7.04371110e-01, 7.09828420e-01, 3.33589977e-01, 5.20857790e-02,
+                   2.84763136e-02, 7.02210626e-01, 7.11815232e-01, 7.10512240e-01,
+                   7.03646004e-01, 7.08017286e-01, 7.06162814e-01, 2.12569430e-05,
+                   2.35019125e-05, 2.04211110e-05, 7.51048890e-02, 3.94254400e-01,
+                   7.11351099e-02])
+        ssX.mean_ = np.array([ 4.95458585e+03,  5.67411891e-02,  3.83176945e-02,  2.97223474e+00,
+                   6.29733979e-02,  3.50074471e-02,  6.72845676e-01,  9.92794768e+00,
+                   9.99628430e-01,  5.39591547e-02,  2.92795061e-02,  2.12480714e-03,
+                  -1.01500319e-02,  1.82667162e-02,  1.00813201e-02,  5.74404197e-03,
+                   6.86570242e-03,  1.25316320e+00,  4.76946516e-02,  2.71326280e-02,
+                   7.02054326e-03,  9.83378673e-03, -5.70616748e-03,  5.50782881e-03,
+                  -8.44213953e-04,  2.05958338e-03,  1.57866569e+00,  4.31476211e-02,
+                   2.73316392e-02,  1.05505555e-02,  1.03922250e-02,  7.36865006e-03,
+                  -6.00523246e-04,  6.53016990e-03, -1.72038113e-03,  1.24807860e-05,
+                   1.60314173e-05,  1.21732696e-05,  5.67292645e-03,  1.92488263e-01,
+                   5.08607199e-03])
+        ssX.var_ = ssX.scale_**2
         swag_model.ssX = ssX
-    except FileNotFoundError:
-        print(f"ssX file not found! {ssX_file}")
-        ...
+    else:
+        ssX_file = path[:-4] + '_ssX.pkl'
+        try:
+            ssX = pkl.load(open(ssX_file, 'rb'))
+            swag_model.ssX = ssX
+        except FileNotFoundError:
+            print(f"ssX file not found! {ssX_file}")
+            ...
     
     return swag_model
