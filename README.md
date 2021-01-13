@@ -1,5 +1,8 @@
 # bnn_chaos_model
-Model and training code for Bayesian neural network for compact planetary instability
+Model and training code for Bayesian neural network for compact planetary instability.
+
+For an easy-to-use API implementing
+a trained version of this model, check out [spock](https://github.com/dtamayo/spock)!
 
 # Running
 
