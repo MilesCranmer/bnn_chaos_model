@@ -1,10 +1,12 @@
-# bnn_chaos_model
-Model and training code for [A Bayesian neural network predicts the dissolution of compact planetary systems](https://arxiv.org/abs/2101.04117)
+# [A Bayesian neural network predicts the dissolution of compact planetary systems](https://arxiv.org/abs/2101.04117)
 
-![](orbital_dynamics_model-01.png)
+This repository is the official implementation of the paper https://arxiv.org/abs/2101.04117,
+containing training code, evaluation scripts, and figure generation.
 
 For an easy-to-use API implementing
 a trained version of this model, check out [spock](https://github.com/dtamayo/spock)!
+
+![](orbital_dynamics_model-01.png)
 
 # Running
 
@@ -20,6 +22,6 @@ Then, execute that script in the folder.
 
 # Requirements
 
-Python: 3.7.0
+One can install a working conda environment using `create_env.sh`.
 
-Package version requirements are given in `create_env.sh`.
+This file also contains a list of packages required by this model.
