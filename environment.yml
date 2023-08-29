@@ -1,0 +1,30 @@
+name: bnn_chaos_model
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - conda-forge::python=3.7
+  - conda-forge::numpy
+  - conda-forge::scipy
+  - conda-forge::pandas
+  - conda-forge::scikit-learn
+  - conda-forge::matplotlib
+  - pytorch::pytorch=1.5.1
+  - conda-forge::cudatoolkit=10.1
+  - conda-forge::numba
+  - conda-forge::dask
+  - conda-forge::xgboost=1.2.0
+  - conda-forge::tqdm
+  - conda-forge::dill
+  - conda-forge::jupyter
+  - conda-forge::rebound=3.14.0
+  - conda-forge::seaborn
+  - conda-forge::fire
+  - conda-forge::einops
+  - conda-forge::h5py
+  - conda-forge::pip
+  - pip:
+    - celluloid
+    - icecream
+    - git+https://github.com/MilesCranmer/celmech.git
+    - pytorch_lightning>=1,<2
