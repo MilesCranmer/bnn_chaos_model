@@ -22,6 +22,19 @@ Then, execute that script in the folder.
 
 # Requirements
 
-One can install a working conda environment using `create_env.sh`.
+One can install a working conda environment from the `environment.yml` file:
 
-This file also contains a list of packages required by this model.
+```bash
+conda env create -f environment.yml
+```
+
+**Note**: You may need to delete the line:
+```yml
+  - conda-forge::cudatoolkit=10.1
+```
+from the `environment.yml` file depending on your system setup.
+
+**Note 2**: On Apple Silicon, in addition to the above change, you will also
+need to run the `env create` command with `CONDA_SUBDIR=osx-64` as
+an environment variable. This is because some of the specific dependencies are
+not available for Apple Silicon yet.
