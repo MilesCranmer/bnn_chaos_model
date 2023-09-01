@@ -27,4 +27,6 @@ dependencies:
     - celluloid
     - icecream
     - git+https://github.com/MilesCranmer/celmech.git
-    - pytorch_lightning>=1,<2
+    - pytorch_lightning==1.1
+    - tensorboard
+    - tensorboardX
