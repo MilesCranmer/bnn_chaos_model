@@ -380,7 +380,7 @@ class VarModel(pl.LightningModule):
         hparams['weight_decay'] = 1e-4 if 'weight_decay' not in hparams else hparams['weight_decay']
         hparams['noisy_val'] = True if 'noisy_val' not in hparams else hparams['noisy_val']
 
-        # self.hparams = hparams
+        self.hparams = hparams
         self.save_hyperparameters()
         self.steps = hparams['steps']
         self.batch_size = hparams['batch_size']
